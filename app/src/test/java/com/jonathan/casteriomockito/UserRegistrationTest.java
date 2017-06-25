@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 public class UserRegistrationTest {
@@ -23,5 +24,15 @@ public class UserRegistrationTest {
     public void shouldThrowExceptionWhenUserAlreadyRegistered() throws UserAlreadyRegisteredException {
         when(mockDatabase.hasUser(anyString())).thenReturn(true);
         userRegistration.registerNewUser("foo@gmail.com");
+    }
+
+    @Test
+    public void shouldAddNewUserToDatabase() throws UserAlreadyRegisteredException {
+        final String emailAddress = "foo@gmail.com";
+        when(mockDatabase.hasUser(emailAddress)).thenReturn(false);
+
+        userRegistration.registerNewUser(emailAddress);
+
+        verify(mockDatabase).addUser(emailAddress);
     }
 }
