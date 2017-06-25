@@ -14,4 +14,11 @@ public class UserRegistration {
         }
         database.addUser(emailAddress);
     }
+
+    public void deleteUser(final String emailAddress) throws UserNotFoundException {
+        if(!database.hasUser(emailAddress)) {
+            throw new UserNotFoundException();
+        }
+        database.deleteUser(emailAddress);
+    }
 }
